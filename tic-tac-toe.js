@@ -5,6 +5,7 @@ let currentturn='X';
 
 let GameIsOver= false;
 let isReset= false;
+let count=0;
 // change turn
 
 const turnChange =()=>{
@@ -21,7 +22,6 @@ let WinArray = [
     [0,4,8],
     [2,4,6]
 ]
-
 const decideWin =()=>{
     let text= document.getElementsByClassName("newtext");
 
@@ -30,12 +30,15 @@ const decideWin =()=>{
 
             document.getElementById("reset").style.marginLeft="1vw";
             GameIsOver= true;
+            win=true;
             document.querySelector(".info").innerText = text[ele[0]].innerText + " Won";
             document.querySelector(".image").getElementsByTagName("img")[0].style.width="20vw";
             gameover.play();
         }
     })
 }
+
+
 
 let cells= document.getElementsByClassName("box");
 
@@ -47,19 +50,24 @@ Array.from(cells).forEach((element)=>{
                 if(isReset==true){
                     currentturn="X";
                     isReset=false;
+                    win=false;
                 }
                 else{
                     turnChange();
                 }
                 newtext.innerText= currentturn;
                 turn.play();
+                count++;
                 decideWin();
             }
             let declareTurn=document.getElementsByClassName("info")[0];
 
-            if(!GameIsOver){
+            if(!GameIsOver && count!=9){
                 document.getElementById("reset").style.marginLeft="1vw";
                 declareTurn.innerText="Turn for " + currentturn;
+            }
+            if(count==9 && (!GameIsOver)){
+                declareTurn.innerText="it is a draw";
             }
         }
     })
@@ -78,3 +86,4 @@ control.addEventListener('click',()=>{
     declareTurn.innerText='';
     document.querySelector(".image").getElementsByTagName("img")[0].style.width="0";
 })
+
